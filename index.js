@@ -91,7 +91,7 @@ async function call_openai_translate_ASLGloss(englishSentence) {
 }
 
 //Create the openai_api_end_point
-app.get("/translate", async (req, res) => {
+app.get("/translatetoASLGloss", async (req, res) => {
     let english = req.body;
     if (!english) {
         return res.status(400).json({ error: 'No value provided' });
