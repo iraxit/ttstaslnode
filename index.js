@@ -71,8 +71,8 @@ app.get("/queryai", async (req, res) => {
 });
 
 //to interpret an image in openai
-async function call_openai_translate(englishSentence) {
-    const response = await openai.chat.completions.create({
+async function call_openai_translate_ASLGloss(englishSentence) {
+    const ASLGloss = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         messages: [
             {
@@ -87,11 +87,16 @@ async function call_openai_translate(englishSentence) {
         max_tokens: 100,
         temperature: 0.2
     })
-    console.log(response.choices[0]);
+    console.log(ASLGloss.choices[0]);
 }
 
 //Create the openai_api_end_point
 app.get("/translate", async (req, res) => {
-    let content = await call_openai_translate();
-    res.send(content);
+    let english = req.body;
+    if (!english) {
+        return res.status(400).json({ error: 'No value provided' });
+    }
+    let content = await call_openai_translate_ASLGloss(english);
+    //res.send(content);
+    res.json({ content });
 });
